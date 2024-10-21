@@ -1,5 +1,49 @@
 package com.example.demo.controller;
 
-public class ClienteController {
+import java.util.List;
 
-}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.entities.Cliente;
+import com.example.demo.services.ClienteService;
+
+@RestController
+@RequestMapping("/cliente")
+public class ClienteController {
+	
+	public final ClienteService clienteservice;
+	
+
+	   @Autowired
+	   public ClienteController (ClienteService clienteservice) {
+	       this.clienteservice = clienteservice;
+	   }
+	   
+	   @PostMapping
+	   public Cliente createCliente (@RequestBody Cliente cliente) {
+	       return clienteservice.saveCustomer(cliente);
+	   }
+	   
+	   @GetMapping
+	   public List<Cliente> getAllCliente(){
+	       return clienteservice.getAllCliente();
+	   }
+	   
+	   @GetMapping("/{id}")
+	   public Cliente getCliente(@PathVariable Long id) {
+	       return clienteservice.getClienteById(id);
+	   }
+
+	   @DeleteMapping("/{id}")
+	   public void deleteCliente(@PathVariable Long id) {
+	       clienteservice.deleteCliente(id);
+	   }
+
+	}
